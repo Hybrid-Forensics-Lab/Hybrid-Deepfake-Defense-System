@@ -1,0 +1,21 @@
+# --- Virtual Environments ---
+.venv/
+venv/
+env/
+
+# --- Python Cache ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Datasets & Media ---
+data/
+*.zip
+*.tar.gz
+
+# --- Jupyter Notebooks ---
+.ipynb_checkpoints/
+
+# --- OS Generated Files ---
+.DS_Store
+Thumbs.db
