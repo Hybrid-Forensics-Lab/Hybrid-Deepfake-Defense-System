@@ -1,21 +1,9 @@
-# --- Virtual Environments ---
-.venv/
-venv/
-env/
-
-# --- Python Cache ---
-__pycache__/
-*.py[cod]
-*$py.class
-
-# --- Datasets & Media ---
-data/
-*.zip
-*.tar.gz
-
-# --- Jupyter Notebooks ---
-.ipynb_checkpoints/
-
-# --- OS Generated Files ---
-.DS_Store
-Thumbs.db
+CLAUDE.md
+data/ff_plus_plus/**/*.jpg
+data/ff_plus_plus/**/*.png
+data/lfw/**/*.jpg
+data/lfw/**/*.png
+ml_forensics/models/
+ml_privacy/models/
+environments/
+results/privacy/cloaked_images/
