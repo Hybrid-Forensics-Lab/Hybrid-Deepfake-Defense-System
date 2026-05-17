@@ -1,0 +1,25 @@
+name: privacy-env
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pytorch=2.1
+  - torchvision
+  - torchaudio
+  - pytorch-cuda=12.1
+  - pip
+  - pip:
+    - facenet-pytorch
+    - insightface
+    - onnxruntime-gpu
+    - scikit-image
+    - scikit-learn
+    - matplotlib
+    - pandas
+    - opencv-python-headless
+    - numpy
+    - Pillow
+    - tqdm
