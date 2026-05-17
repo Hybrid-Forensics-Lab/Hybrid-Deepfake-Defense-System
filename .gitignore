@@ -5,5 +5,4 @@ data/lfw/**/*.jpg
 data/lfw/**/*.png
 ml_forensics/models/
 ml_privacy/models/
-environments/
 results/privacy/cloaked_images/
