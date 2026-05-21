@@ -67,7 +67,7 @@ def main():
     output_dir = (
         Path(args.output_dir)
         if args.output_dir
-        else Path("results/privacy/fawkes") / args.recognizer
+        else Path("results/privacy/cloaked_images/fawkes") / args.recognizer
     )
 
     identity_folders = get_identity_folders(manifest_path, lfw_root, args.recognizer)
