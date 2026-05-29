@@ -14,12 +14,12 @@ dependencies:
   - pip:
     - facenet-pytorch
     - insightface
-    - onnxruntime-gpu
+    - onnxruntime-gpu==1.16.3
     - scikit-image
     - scikit-learn
     - matplotlib
     - pandas
     - opencv-python-headless
-    - numpy
+    - numpy<2.0.0
     - Pillow
     - tqdm
