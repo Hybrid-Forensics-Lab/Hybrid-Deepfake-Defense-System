@@ -3,6 +3,9 @@ data/ff_plus_plus/**/*.jpg
 data/ff_plus_plus/**/*.png
 data/lfw/**/*.jpg
 data/lfw/**/*.png
+data/progan/**/*.jpg
+data/progan/**/*.png
 ml_forensics/models/
 ml_privacy/models/
 results/privacy/cloaked_images/
+results/phase2/privacy/cloaked_images/
