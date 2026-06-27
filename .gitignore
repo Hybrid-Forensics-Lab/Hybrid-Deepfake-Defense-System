@@ -14,4 +14,3 @@ ml_forensics/models/
 ml_privacy/models/
 results/**/*.jpg
 results/**/*.png
-results/phase2/privacy/cloaked_images/
