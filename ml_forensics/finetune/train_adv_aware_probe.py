@@ -49,7 +49,7 @@ def load_clip(device):
 
 
 def extract_features_from_paths(image_paths, labels, preprocess, clip_model, device,
-                                 batch_size, desc="Extracting"):
+                                 batch_size, desc="Extracting", normalize=False):
     all_feats = []
     all_labs = []
     all_paths = []
@@ -80,7 +80,12 @@ def extract_features_from_paths(image_paths, labels, preprocess, clip_model, dev
         with torch.no_grad():
             with torch.autocast("cuda", dtype=torch.float16, enabled=device.type == "cuda"):
                 feats = clip_model.encode_image(batch_tensor)
-        feats = torch.nn.functional.normalize(feats.float(), p=2, dim=-1)
+        feats = feats.float()
+        # NOTE: the base FF++ features (clip_features_finetune_10k.npz) are stored RAW
+        # (un-normalized). L2-normalizing here while the base is raw creates a magnitude
+        # shortcut that the probe latches onto. Keep raw (normalize=False) for consistency.
+        if normalize:
+            feats = torch.nn.functional.normalize(feats, p=2, dim=-1)
         all_feats.append(feats.cpu().numpy())
         all_labs.extend(valid_labels)
         all_paths.extend(valid_paths)
@@ -241,6 +246,13 @@ def main():
         help="Omit clean LFW images from training (use only cloaked). "
              "Avoids polluting the real class with face crops similar to GAN images.",
     )
+    parser.add_argument(
+        "--normalize_features",
+        action="store_true",
+        default=False,
+        help="L2-normalize extracted LFW/ProGAN features. MUST match the base FF++ "
+             "feature convention (which is RAW). Leave off (raw) for a valid probe.",
+    )
     args = parser.parse_args()
 
     # ------------------------------------------------------------------
@@ -318,6 +330,7 @@ def main():
             device,
             args.batch_size,
             desc="Cloaked LFW",
+            normalize=args.normalize_features,
         )
         np.savez(args.cloaked_features_out,
                  features=cloaked_feats, labels=cloaked_labels, paths=cloaked_fpaths)
@@ -345,6 +358,7 @@ def main():
             device,
             args.batch_size,
             desc="Clean LFW",
+            normalize=args.normalize_features,
         )
         np.savez(args.clean_features_out,
                  features=clean_feats, labels=clean_labels, paths=clean_fpaths)
@@ -363,6 +377,7 @@ def main():
             device,
             args.batch_size,
             desc="ProGAN train",
+            normalize=args.normalize_features,
         )
         np.savez(args.progan_train_features_out,
                  features=pg_feats, labels=pg_labels, paths=pg_fpaths)
