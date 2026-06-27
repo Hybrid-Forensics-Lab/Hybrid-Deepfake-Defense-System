@@ -12,5 +12,6 @@ results/**/*.pkl
 results/**/*.npz
 ml_forensics/models/
 ml_privacy/models/
-results/privacy/cloaked_images/
+results/**/*.jpg
+results/**/*.png
 results/phase2/privacy/cloaked_images/
