@@ -1,4 +1,7 @@
 CLAUDE.md
+.claude/*
+phase2.md
+docs/*.md
 data/ff_plus_plus/**/*.jpg
 data/ff_plus_plus/**/*.png
 data/lfw/**/*.jpg
