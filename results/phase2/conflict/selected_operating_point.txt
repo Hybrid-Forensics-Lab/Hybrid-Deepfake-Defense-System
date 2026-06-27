@@ -1,0 +1,26 @@
+Model: ft_univfd (MLP probe, 10k training images)
+Threshold: 0.8
+FPR: 0.0975 (9.75%) on Phase 2 cloaked images (400 images: 200 ArcFace + 200 FaceNet, eps=0.03)
+FF++ Recall: 0.608 (60.8%) at threshold 0.8
+Passes FPR < 15%: YES
+Epsilon (cloaking): 0.03
+Date selected: 2026-06-27
+
+Two-model gate (FT-UnivFD@0.8 primary + Wang2020@0.5 secondary):
+  Gate FPR: 0.0775 (7.75%) — improves FPR by ~2pp vs standalone FT-UnivFD@0.8
+  Gate logic: if FT-UnivFD@0.8 says synthetic AND Wang2020@0.5 says authentic → output authentic (conflict_warning=True)
+
+Selection rationale:
+  - FT-UnivFD MLP (threshold=0.8) is the ONLY single-model configuration achieving FPR < 15%.
+  - Wang2020 and UnivFD k-NN fail at all thresholds (min FPR 39% and 74.2% respectively).
+  - Raising threshold to 0.9 reduces FPR further (0.25%) but drops FF++ recall to 57.8%.
+    Threshold 0.8 is preferred: better recall with still-acceptable FPR.
+  - The two-model gate further reduces FPR to 7.75% with minimal recall cost — recommended
+    for the web app /protect endpoint.
+
+Key Phase 2 conflict finding:
+  - Phase 1 (targeted PGD, eps=0.03): Wang2020 FPR=11%, UnivFD FPR=71%
+  - Phase 2 (untargeted PGD, eps=0.03): Wang2020 FPR=74%, UnivFD k-NN FPR=69%
+  - Untargeted PGD (same epsilon) produces perturbations that look more like GAN artifacts,
+    dramatically worsening the conflict for Wang2020 (11% → 74%).
+  - FT-UnivFD MLP RESOLVES this conflict at threshold=0.8 (FPR 9.75%).
