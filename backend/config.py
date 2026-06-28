@@ -26,6 +26,7 @@ PGD_EPSILON = 0.03             # untargeted PGD L-inf budget (default)
 PGD_STEPS = 40
 PGD_ALPHA_FACTOR = 2.0         # alpha = epsilon / steps * alpha_factor
 CLOAK_FACENET_DEFAULT = False  # default /protect cloaks ArcFace only
+PROTECT_JPEG_QUALITY = 80      # light JPEG on cloaked output: ASR ~0.99, cloaked FPR 6%->2% (phase2.md S9)
 
 # --- Upload limits ---
 MAX_UPLOAD_MB = 10

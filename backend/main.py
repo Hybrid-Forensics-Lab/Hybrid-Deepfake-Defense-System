@@ -90,15 +90,17 @@ def detect(image: UploadFile = File(...)):
 @app.post("/protect", response_model=schemas.ProtectResponse)
 def protect(image: UploadFile = File(...),
             epsilon: float = Form(None),
-            use_facenet: bool = Form(None)):
+            use_facenet: bool = Form(None),
+            jpeg_quality: int = Form(None)):
     img = _read_image(image)
     eps = epsilon if epsilon is not None else config.PGD_EPSILON
     use_fn = use_facenet if use_facenet is not None else config.CLOAK_FACENET_DEFAULT
+    jq = jpeg_quality if jpeg_quality is not None else config.PROTECT_JPEG_QUALITY
 
     t0 = time.time()
     try:
         cloaked_img, ssim_val, psnr_val = engines["cloak"].cloak(
-            img, eps, config.PGD_STEPS, use_fn)
+            img, eps, config.PGD_STEPS, use_fn, jq)
     except NoFaceError:
         raise HTTPException(status_code=400,
                             detail="No face detected in the uploaded image")
