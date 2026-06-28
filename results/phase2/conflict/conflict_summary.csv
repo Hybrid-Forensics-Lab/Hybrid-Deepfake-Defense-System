@@ -1,0 +1,12 @@
+forensic_model,threshold,num_images,num_flagged,fpr,passes_15pct,ff_recall
+ft_univfd,0.5,400,358,0.895,False,0.664
+ft_univfd,0.6,400,276,0.69,False,0.652
+ft_univfd,0.7,400,146,0.365,False,0.64
+ft_univfd,0.8,400,39,0.0975,True,0.608
+ft_univfd,0.9,400,1,0.0025,True,0.578
+univfd_knn,0.5,400,277,0.6925,False,
+univfd_knn,0.6,400,261,0.6525,False,
+univfd_knn,0.7,400,238,0.595,False,
+univfd_knn,0.8,400,203,0.5075,False,
+univfd_knn,0.9,400,156,0.39,False,
+wang2020,0.5,400,297,0.7425,False,0.01

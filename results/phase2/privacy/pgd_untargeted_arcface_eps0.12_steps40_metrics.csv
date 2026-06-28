@@ -1,0 +1,2 @@
+epsilon,steps,n_images,mean_asr,mean_ssim,mean_psnr,mean_cosine_sim
+0.12,40,50,1.0,0.49753185452015564,22.968846203681807,-0.8787939536571503

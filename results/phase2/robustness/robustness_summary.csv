@@ -1,0 +1,5 @@
+transform,arcface_asr,arcface_ssim,arcface_psnr,facenet_asr,facenet_ssim,facenet_psnr
+Baseline (no tx),1.0000,0.9020,34.2100,1.0000,0.8630,33.5400
+JPEG Q=75,0.9100,0.9389,35.7562,1.0000,0.9081,35.0015
+JPEG Q=50,0.0700,0.9319,34.8101,1.0000,0.9035,34.4667
+Bilinear DS/US,0.0650,0.9564,35.9686,1.0000,0.9442,36.6602

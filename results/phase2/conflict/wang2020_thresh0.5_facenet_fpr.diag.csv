@@ -1,0 +1,2 @@
+forensic_model,threshold,num_images,num_flagged,fpr,passes_15pct
+wang2020,0.5,200,160,0.8,False

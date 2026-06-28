@@ -1,0 +1,2 @@
+forensic_model,threshold,num_images,num_flagged,fpr,passes_15pct
+ft_univfd,0.9,400,0,0.0,True
