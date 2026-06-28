@@ -14,3 +14,5 @@ ml_forensics/models/
 ml_privacy/models/
 results/**/*.jpg
 results/**/*.png
+results/phase2/forensics/exp1_skipclean_eval.csv
+results/phase2/privacy/exp2_jpeg_sweep.csv

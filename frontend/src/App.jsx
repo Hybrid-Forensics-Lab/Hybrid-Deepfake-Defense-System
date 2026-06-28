@@ -55,70 +55,112 @@ export default function App() {
   }
 
   return (
-    <div className="app">
-      <header>
-        <h1>Hybrid Deepfake Defense System</h1>
-        <p className="subtitle">Forensic detection &amp; adversarial identity cloaking</p>
+    <div className="shell">
+      <header className="masthead">
+        <div className="brand">
+          <img className="mark" src="/favicon.svg" alt="" />
+          <span className="wordmark">Deepfake Defense</span>
+        </div>
+        <h1>
+          See through the fake.<br />
+          <em>Protect the real.</em>
+        </h1>
+        <p className="lede">
+          A dual-layer system that detects synthetic media and cloaks real faces
+          against recognition — built on forensic CLIP features and adversarial perturbation.
+        </p>
+
         {hp && (
-          <p className="health">
-            ● API {hp.status} · GPU {hp.gpu ? "on" : "off"} · FF++ AUC {hp.ff_auc} · ProGAN
-            AUC {hp.progan_auc}
-          </p>
+          <div className="stats">
+            <span className="stat">
+              <span className={`dot${hp.gpu ? "" : " off"}`} />
+              API {hp.status}
+            </span>
+            <span className="stat">GPU&nbsp;<b>{hp.gpu ? "on" : "off"}</b></span>
+            <span className="stat">FF++ AUC&nbsp;<b>{hp.ff_auc}</b></span>
+            <span className="stat">ProGAN AUC&nbsp;<b>{hp.progan_auc}</b></span>
+          </div>
         )}
       </header>
 
-      <div className="mode-toggle">
-        <button className={mode === "detect" ? "active" : ""} onClick={() => switchMode("detect")}>
-          Detect
-        </button>
-        <button className={mode === "protect" ? "active" : ""} onClick={() => switchMode("protect")}>
-          Protect
-        </button>
-      </div>
-
-      <p className="mode-help">
-        {mode === "detect"
-          ? "Classify an image as authentic or synthetic (deepfake)."
-          : "Cloak a face so recognizers fail, while staying visually unchanged."}
-      </p>
-
-      <UploadPanel onSelect={onSelect} previewUrl={previewUrl} />
-
-      {mode === "protect" && (
-        <div className="controls">
-          <label className="slider">
-            Perturbation ε: <strong>{epsilon.toFixed(2)}</strong>
-            <input
-              type="range"
-              min="0.01"
-              max="0.1"
-              step="0.01"
-              value={epsilon}
-              onChange={(e) => setEpsilon(parseFloat(e.target.value))}
-            />
-          </label>
-          <label className="checkbox">
-            <input
-              type="checkbox"
-              checked={useFacenet}
-              onChange={(e) => setUseFacenet(e.target.checked)}
-            />
-            Also cloak against FaceNet (slower)
-          </label>
+      <main className="panel">
+        <div className="seg" data-mode={mode}>
+          <span className="seg-thumb" />
+          <button
+            className={mode === "detect" ? "active" : ""}
+            onClick={() => switchMode("detect")}
+          >
+            Detect
+          </button>
+          <button
+            className={mode === "protect" ? "active" : ""}
+            onClick={() => switchMode("protect")}
+          >
+            Protect
+          </button>
         </div>
-      )}
 
-      <button className="run-btn" onClick={run} disabled={!file || loading}>
-        {loading ? "Processing…" : mode === "detect" ? "Analyze image" : "Protect image"}
-      </button>
+        <p className="mode-help">
+          {mode === "detect"
+            ? "Classify an image as authentic or synthetic (deepfake)."
+            : "Cloak a face so recognizers fail — while it stays visually unchanged."}
+        </p>
 
-      {error && <div className="error">{error}</div>}
+        <UploadPanel onSelect={onSelect} previewUrl={previewUrl} />
+
+        {mode === "protect" && (
+          <div className="controls">
+            <div>
+              <div className="field-label">
+                <span>Perturbation strength (ε)</span>
+                <span className="val">{epsilon.toFixed(2)}</span>
+              </div>
+              <input
+                type="range"
+                min="0.01"
+                max="0.1"
+                step="0.01"
+                value={epsilon}
+                onChange={(e) => setEpsilon(parseFloat(e.target.value))}
+              />
+              <div className="range-scale">
+                <span>subtle</span>
+                <span>stronger</span>
+              </div>
+            </div>
+            <label className="switch">
+              <input
+                type="checkbox"
+                checked={useFacenet}
+                onChange={(e) => setUseFacenet(e.target.checked)}
+              />
+              <span className="track" />
+              Also cloak against FaceNet <span style={{ color: "var(--faint)" }}>(slower)</span>
+            </label>
+          </div>
+        )}
+
+        <button className="run-btn" onClick={run} disabled={!file || loading}>
+          {loading && <span className="spinner" />}
+          {loading
+            ? "Processing…"
+            : mode === "detect"
+            ? "Analyze image"
+            : "Protect image"}
+        </button>
+
+        {error && <div className="error">{error}</div>}
+      </main>
 
       {mode === "detect" ? (
         <DetectResults result={detectResult} />
       ) : (
         <ProtectResults result={protectResult} originalUrl={previewUrl} />
       )}
+
+      <footer className="foot">
+        FT-UnivFD forensic probe · untargeted PGD identity cloaking · running on NVIDIA L4
+      </footer>
     </div>
   );
 }

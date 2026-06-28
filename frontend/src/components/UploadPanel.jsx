@@ -25,7 +25,7 @@ export default function UploadPanel({ onSelect, previewUrl }) {
   return (
     <div>
       <div
-        className={`dropzone${drag ? " drag" : ""}`}
+        className={`dropzone${drag ? " drag" : ""}${previewUrl ? " has-image" : ""}`}
         onClick={() => inputRef.current.click()}
         onDragOver={(e) => {
           e.preventDefault();
@@ -39,13 +39,21 @@ export default function UploadPanel({ onSelect, previewUrl }) {
         }}
       >
         {previewUrl ? (
-          <img className="preview" src={previewUrl} alt="preview" />
+          <>
+            <img className="preview" src={previewUrl} alt="selected" />
+            <p className="dz-replace">Click or drop to replace</p>
+          </>
         ) : (
-          <p>
-            Drag &amp; drop an image here, or click to choose
-            <br />
-            <small>PNG / JPEG · max 10 MB</small>
-          </p>
+          <>
+            <svg className="dz-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 16V4" />
+              <path d="m7 9 5-5 5 5" />
+              <path d="M5 16v2a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3v-2" />
+            </svg>
+            <p className="dz-title">Drop an image here, or click to browse</p>
+            <p className="dz-sub">PNG or JPEG · up to 10 MB</p>
+          </>
         )}
         <input
           ref={inputRef}
