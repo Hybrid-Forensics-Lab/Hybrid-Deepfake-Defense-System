@@ -33,4 +33,4 @@ sudo systemctl reload nginx
 sudo systemctl enable deepfake-api
 sudo systemctl restart deepfake-api
 
-echo "Done. UI: http://34.135.192.253  | API: http://34.135.192.253:8000/health"
+echo "Done. UI: http://146.148.65.227  | API: http://146.148.65.227:8000/health"

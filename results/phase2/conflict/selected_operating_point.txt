@@ -1,26 +1,31 @@
-Model: ft_univfd (MLP probe, 10k training images)
-Threshold: 0.8
-FPR: 0.0975 (9.75%) on Phase 2 cloaked images (400 images: 200 ArcFace + 200 FaceNet, eps=0.03)
-FF++ Recall: 0.608 (60.8%) at threshold 0.8
-Passes FPR < 15%: YES
-Epsilon (cloaking): 0.03
-Date selected: 2026-06-27
+SELECTED OPERATING POINT (corrected; matches deployed web app and phase2.md)
 
-Two-model gate (FT-UnivFD@0.8 primary + Wang2020@0.5 secondary):
-  Gate FPR: 0.0775 (7.75%) — improves FPR by ~2pp vs standalone FT-UnivFD@0.8
-  Gate logic: if FT-UnivFD@0.8 says synthetic AND Wang2020@0.5 says authentic → output authentic (conflict_warning=True)
+Model: FT-UnivFD = frozen CLIP ViT-L/14 (open_clip, openai) + adversarial-aware
+       LogisticRegression probe on RAW CLIP features (mlp_probe_adv_aware_raw.pkl, C=0.01).
+Threshold: 0.30 (synthetic_prob > 0.30 => synthetic).
+Two-model gate: DROPPED. FT-UnivFD is used alone. Wang2020 has ~0 FF++ recall and
+       flags cloaked images as fake, so a gate would zero out detection.
+
+Headline numbers (recomputed recompute_conflict_corrected.py, validated vs phase2.md):
+  FF++ AUC-ROC:                 0.8116
+  ProGAN AUC-ROC:               0.8294
+  FF++ recall @ 0.30:           0.6200
+  Cloaked-image FPR @ 0.30:     0.1775  (400 eval cloaks: 200 ArcFace + 200 FaceNet)
+  Cloaked-image FPR @ 0.40:     0.1225
+  Cloaked-image FPR @ 0.30, ArcFace-only: 0.0600
+
+Conflict status: PARTIALLY MITIGATED, not eliminated. Adversarial-aware retraining
+  cuts cloaked FPR from ~0.95 (naive probe) to 0.177 at t=0.30. The <0.15 target
+  is met only at t>=0.40 (FPR 0.122, recall 0.530). t=0.30 is chosen to
+  preserve recall (0.620); the residual FPR is reported honestly.
+
+Web-app mitigation: /protect applies light JPEG (Q=80) to the cloaked crop, which
+  smooths the PGD perturbation. This keeps ArcFace ASR ~0.99 while cutting the
+  ArcFace-cloak forensic FPR to ~0.02 (phase2.md Section 9).
 
 Selection rationale:
-  - FT-UnivFD MLP (threshold=0.8) is the ONLY single-model configuration achieving FPR < 15%.
-  - Wang2020 and UnivFD k-NN fail at all thresholds (min FPR 39% and 74.2% respectively).
-  - Raising threshold to 0.9 reduces FPR further (0.25%) but drops FF++ recall to 57.8%.
-    Threshold 0.8 is preferred: better recall with still-acceptable FPR.
-  - The two-model gate further reduces FPR to 7.75% with minimal recall cost — recommended
-    for the web app /protect endpoint.
-
-Key Phase 2 conflict finding:
-  - Phase 1 (targeted PGD, eps=0.03): Wang2020 FPR=11%, UnivFD FPR=71%
-  - Phase 2 (untargeted PGD, eps=0.03): Wang2020 FPR=74%, UnivFD k-NN FPR=69%
-  - Untargeted PGD (same epsilon) produces perturbations that look more like GAN artifacts,
-    dramatically worsening the conflict for Wang2020 (11% → 74%).
-  - FT-UnivFD MLP RESOLVES this conflict at threshold=0.8 (FPR 9.75%).
+  - FT-UnivFD adv-aware alone is the deployed configuration (no gate).
+  - Other models fail the conflict at all thresholds (Wang2020 FPR 0.74,
+    UnivFD k-NN min FPR 0.39); see conflict_summary.csv.
+  - The earlier "0% cloaked FPR / fully resolved with a two-model gate" result was a
+    normalization artifact (phase2.md Section 8) and has been retracted.
