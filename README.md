@@ -2,7 +2,7 @@
 
 A dual-layer system for **media authentication** and **identity protection**. It detects AI-generated images and cloaks real faces against unauthorized recognition, while keeping the two defenses from undermining each other.
 
-**Live demo:** http://34.135.192.253
+**Live demo:** http://146.148.65.227
 
 ![Python](https://img.shields.io/badge/Python-3.10-3776AB?logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.1-EE4C2C?logo=pytorch&logoColor=white)
@@ -90,7 +90,7 @@ The conflict is **mitigated, not eliminated**. Untargeted-PGD artifacts remain p
                                      ||
                               FastAPI backend (:8000)
                               React frontend (nginx :80)
-                              Live at http://34.135.192.253
+                              Live at http://146.148.65.227
 ```
 
 ---

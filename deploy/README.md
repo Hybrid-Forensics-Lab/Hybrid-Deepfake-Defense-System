@@ -2,8 +2,8 @@
 
 Live demo (while the VM is running):
 
-- **UI:** http://34.135.192.253
-- **API:** http://34.135.192.253:8000  (Swagger at `/docs`)
+- **UI:** http://146.148.65.227
+- **API:** http://146.148.65.227:8000  (Swagger at `/docs`)
 
 ## Architecture
 

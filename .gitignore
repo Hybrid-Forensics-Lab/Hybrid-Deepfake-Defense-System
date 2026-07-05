@@ -1,6 +1,10 @@
 CLAUDE.md
 .claude/*
+poster/
+report/
+ml_forensics/finetune/__pycache__/
 phase2.md
+docs/info/
 docs/*.md
 data/ff_plus_plus/**/*.jpg
 data/ff_plus_plus/**/*.png
