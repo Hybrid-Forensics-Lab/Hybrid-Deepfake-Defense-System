@@ -308,4 +308,4 @@ bash deploy/deploy.sh
 
 ## License
 
-Developed as part of BCS 410-1 (Computer Science Project) at Ajman University. Code and documentation are for academic use.
+Developed as part of BCS 410-1 (Computer Science Project) at Canadian University Dubai. Code and documentation are for academic use.
